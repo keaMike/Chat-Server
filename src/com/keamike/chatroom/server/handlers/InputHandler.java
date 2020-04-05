@@ -26,10 +26,10 @@ public class InputHandler {
 
     public void cmdSwitch() {
         try {
-            String line = "";
+            String line;
             loop:
             while ((line = in.readLine()) != null) {
-                JSONObject jsonObj = null;
+                JSONObject jsonObj;
                 // Restructure String to JSON
                 JSONParser jsonParser = new JSONParser();
                 jsonObj = (JSONObject) jsonParser.parse(line);
@@ -54,7 +54,7 @@ public class InputHandler {
                             outputHandler.getAllCommands();
                             break;
                         default:
-                            unknownMsg(cmd);
+                            outputHandler.unknownMsg(cmd);
                             break;
                     }
                 } else if (tokens.length > 0 && userHandler.getUserLoggedIn() != null) {
@@ -66,6 +66,7 @@ public class InputHandler {
                             outputHandler.getMembersOnline();
                             break;
                         case "msg":
+                        case "decline":
                         case "accept":
                             chatHandler.startChat(tokens);
                             break;
@@ -76,7 +77,7 @@ public class InputHandler {
                             outputHandler.getAllCommands();
                             break;
                         default:
-                            unknownMsg(cmd);
+                            outputHandler.unknownMsg(cmd);
                             break;
                     }
                 }
@@ -84,12 +85,5 @@ public class InputHandler {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public void unknownMsg(String cmd) {
-        String msg = "unknown " + cmd;
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("message", msg);
-        outputHandler.send(jsonObject.toJSONString());
     }
 }

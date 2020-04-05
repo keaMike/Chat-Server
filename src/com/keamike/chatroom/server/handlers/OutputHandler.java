@@ -114,4 +114,11 @@ public class OutputHandler {
             send(jsonObject.toJSONString());
         }
     }
+
+    public void unknownMsg(String cmd) {
+        String msg = "unknown " + cmd;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", msg);
+        send(jsonObject.toJSONString());
+    }
 }
